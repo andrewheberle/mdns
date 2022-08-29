@@ -1,6 +1,6 @@
 # mdns
 
-This package is used to Query and RR classes for DNS requests/responses to conform to mDNS.
+This package is used to set the Query and RR class for DNS requests/responses to conform to mDNS.
 
 ## Usage
 

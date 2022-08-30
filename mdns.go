@@ -1,19 +1,17 @@
 package mdns
 
-func setclass(class uint16, upperbit bool) uint16 {
-	if upperbit {
+// PackClass packs a query or RR class setting either the unicast-response or cache-flush
+// bit respectively
+func PackClass(class uint16, flag bool) uint16 {
+	if flag {
 		return class | 1<<15
 	}
 
 	return class ^ 1<<15
 }
 
-// QueryClass returns a query class with the unicast-response bit set as requested
-func QueryClass(class uint16, unicastResponse bool) uint16 {
-	return setclass(class, unicastResponse)
-}
-
-// RRClass returns a query class with the cache-flush bit set as requested
-func RRClass(class uint16, cacheFlush bool) uint16 {
-	return setclass(class, cacheFlush)
+// UnpackClass unpacks a query or RR class returning the original class and if the
+// unicast-response or cache-flush bit was set respectively
+func UnpackClass(class uint16) (uint16, bool) {
+	return class ^ 1<<15, (class & 1 << 15) != 0
 }

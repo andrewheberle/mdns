@@ -17,7 +17,7 @@ func handle(w dns.ResponseWriter, r *dns.Msg) {
 
     if r.Question[0].Qtype == dns.TypePTR {
         m.Answer = append(m.Answer, &dns.PTR{
-            Hdr: dns.RR_Header{Name: "_googlecast._tcp.local.", Rrtype: dns.TypePTR, Class: mdns.RRClass(dns.ClassINET, true), Ttl: 120},
+            Hdr: dns.RR_Header{Name: "_googlecast._tcp.local.", Rrtype: dns.TypePTR, Class: mdns.PackClass(dns.ClassINET, true), Ttl: 120},
             Ptr: "Chromecast-deadbeef-5c74-0091-b8b0-bc27e95d8e84._googlecast._tcp.local.",
         })
     }

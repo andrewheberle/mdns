@@ -19,11 +19,11 @@ var (
 	}
 
 	// mDNS endpoint addresses
-	Ipv4Addr = &net.UDPAddr{
+	GroupIpv4Addr = &net.UDPAddr{
 		IP:   GroupIPv4,
 		Port: 5353,
 	}
-	Ipv6Addr = &net.UDPAddr{
+	GroupIpv6Addr = &net.UDPAddr{
 		IP:   GroupIPv6,
 		Port: 5353,
 	}

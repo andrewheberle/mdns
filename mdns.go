@@ -3,7 +3,7 @@ package mdns
 import "net"
 
 const (
-	QueryClassCacheFlush uint16 = 1 << 15
+	CacheFlush uint16 = 1 << 15
 )
 
 var (

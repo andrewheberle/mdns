@@ -2,6 +2,10 @@ package mdns
 
 import "net"
 
+const (
+	QueryClassCacheFlush uint16 = 1 << 15
+)
+
 var (
 	// Multicast groups used by mDNS
 	GroupIPv4 = net.IPv4(224, 0, 0, 251)

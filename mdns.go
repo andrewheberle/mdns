@@ -1,6 +1,10 @@
 package mdns
 
-import "net"
+import (
+	"net"
+
+	"github.com/miekg/dns"
+)
 
 const (
 	CacheFlush uint16 = 1 << 15
@@ -37,14 +41,25 @@ var (
 // bit respectively
 func PackClass(class uint16, flag bool) uint16 {
 	if flag {
-		return class | 1<<15
+		return class | CacheFlush
 	}
 
-	return class ^ 1<<15
+	return class ^ CacheFlush
 }
 
 // UnpackClass unpacks a query or RR class returning the original class and if the
 // unicast-response or cache-flush bit was set respectively
 func UnpackClass(class uint16) (uint16, bool) {
-	return class ^ 1<<15, (class & 1 << 15) != 0
+	return class ^ CacheFlush, (class & CacheFlush) != 0
+}
+
+// From RFC6762
+// 18.12.  Repurposing of Top Bit of qclass in Question Section
+//
+//	In the Question Section of a Multicast DNS query, the top bit of the
+//	qclass field is used to indicate that unicast responses are preferred
+//	for this particular question.  (See Section 5.4.)
+func IsUnicastQuestion(q dns.Question) bool {
+
+	return q.Qclass&CacheFlush != 0
 }

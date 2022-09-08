@@ -60,6 +60,29 @@ func UnpackClass(class uint16) (uint16, bool) {
 //	qclass field is used to indicate that unicast responses are preferred
 //	for this particular question.  (See Section 5.4.)
 func IsUnicastQuestion(q dns.Question) bool {
-
 	return q.Qclass&CacheFlush != 0
+}
+
+// From RFC6762
+// 6.1.  Negative Responses
+//
+// Any time a responder receives a query for a name for which it has
+// verified exclusive ownership, for a type for which that name has no
+// records, the responder MUST (except as allowed in (a) below) respond
+// asserting the nonexistence of that record using a DNS NSEC record
+// RFC4034.  In the case of Multicast DNS the NSEC record is not being
+// used for its usual DNSSEC [RFC4033] security properties, but simply
+// as a way of expressing which records do or do not exist with a given
+// name.
+func GenerateNSECResponse(name string, ttl uint32, types ...uint16) *dns.NSEC {
+	return &dns.NSEC{
+		Hdr: dns.RR_Header{
+			Name:   name,
+			Rrtype: dns.TypeNSEC,
+			Class:  dns.ClassINET,
+			Ttl:    ttl,
+		},
+		NextDomain: name,
+		TypeBitMap: types,
+	}
 }
